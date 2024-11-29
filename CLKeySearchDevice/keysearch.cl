@@ -163,34 +163,34 @@ __kernel void multiplyStepKernel(
 }
 
 
-void hashPublicKey(uint256_t x, uint256_t y, unsigned int* digestOut)
+void hashPublicKey(uint256_t x, uint256_t y, __generic unsigned int* digestOut)
 {
-    unsigned int hash[8];
+    __generic unsigned int hash[8];  // Explicitly mark hash with __generic
 
     sha256PublicKey(x.v, y.v, hash);
 
     // Swap to little-endian
-    for(int i = 0; i < 8; i++) {
+    for (int i = 0; i < 8; i++) {
         hash[i] = endian(hash[i]);
     }
 
     ripemd160sha256NoFinal(hash, digestOut);
 }
 
-void hashPublicKeyCompressed(uint256_t x, unsigned int yParity, unsigned int* digestOut)
+void hashPublicKeyCompressed(uint256_t x, unsigned int yParity, __generic unsigned int* digestOut)
 {
-    unsigned int hash[8];
+    __generic unsigned int hash[8];  // Explicitly mark hash with __generic
 
     sha256PublicKeyCompressed(x.v, yParity, hash);
 
     // Swap to little-endian
-    for(int i = 0; i < 8; i++) {
+    for (int i = 0; i < 8; i++) {
         hash[i] = endian(hash[i]);
     }
 
     ripemd160sha256NoFinal(hash, digestOut);
-
 }
+
 
 void atomicListAdd(__global CLDeviceResult *results, __global unsigned int *numResults, CLDeviceResult *r)
 {
